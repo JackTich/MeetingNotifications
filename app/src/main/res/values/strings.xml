@@ -1,0 +1,27 @@
+<resources>
+    <string name="app_name">MeetingNotifications</string>
+    <string name="meetings_list">Список встреч</string>
+    <string name="meeting">Встреча</string>
+    <string name="char_star">*</string>
+    <string name="error_parsing_date">Неправильный формат дат(Пример 12.07.2020)</string>
+    <string name="error_empty_date">Заполните поле "Дата"</string>
+    <string name="error_parsing_time">Неправильный формат времени(Пример 13:15)</string>
+    <string name="error_last_date">Невозможно запланировать встречу на прошлую дату</string>
+    <string name="error_last_time">Невозможно запланировать встречу на прошлое время</string>
+    <string name="error_empty">Пустое поле</string>
+    <string name="add">Добавить</string>
+    <string name="create">Создать</string>
+    <string name="create_meeting">Создать встречу</string>
+    <string name="add_client">Добавить клиента</string>
+    <string name="error_server">Ошибка подключения к серверу</string>
+    <string name="error_unknown">Неизвестная ошибка</string>
+    <string name="choose_client">Выбрать клиента</string>
+    <string name="title">Название</string>
+    <string name="date">Дата</string>
+    <string name="time">Время</string>
+    <string name="error_non_selected_user">Необходимо выбрать пользователя</string>
+    <string name="error_db">Ошибка базы данных</string>
+    <string name="refresh">Обновить</string>
+    <string name="error_server_503">Сервер пока не готов обработать запрос. Попробуйте обновить список позже</string>
+    <string name="error_no_connection">Нет подключения к интернету</string>
+</resources>

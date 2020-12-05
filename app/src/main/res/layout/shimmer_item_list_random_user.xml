@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.facebook.shimmer.ShimmerFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="100dp"
+    android:id="@+id/shimmerItemRandomUser"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_marginStart="@dimen/margin_choose_client_layout"
+    android:layout_marginTop="20dp"
+    android:layout_marginEnd="@dimen/margin_choose_client_layout">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <View
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:id="@+id/imgRandomUserView"
+            android:background="@color/shimmerRecycleView"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"/>
+        <View
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
+            android:id="@+id/tvNameRandomUserView"
+            android:background="@color/shimmerRecycleView"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toRightOf="@id/imgRandomUserView"
+            app:layout_constraintBottom_toTopOf="@id/tvEmailRandomUserView"
+            android:layout_marginStart="10dp"
+            />
+        <View
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
+            android:id="@+id/tvEmailRandomUserView"
+            android:background="@color/shimmerRecycleView"
+            app:layout_constraintLeft_toLeftOf="@id/tvNameRandomUserView"
+            app:layout_constraintTop_toBottomOf="@id/tvNameRandomUserView"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</com.facebook.shimmer.ShimmerFrameLayout>

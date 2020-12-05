@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <dimen name="standard_text_size">14sp</dimen>
+    <dimen name="big_text_size">18sp</dimen>
+    <dimen name="small_text_size">12sp</dimen>
+
+    <dimen name="margin_create_meetings_layout">20dp</dimen>
+    <dimen name="margin_choose_client_layout">20dp</dimen>
+    <dimen name="margin_meetings_list_layout">20dp</dimen>
+</resources>

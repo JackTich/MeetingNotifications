@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:startDestination="@+id/meetings_list_navigation"
+    android:id="@+id/navigation_meetings">
+    <fragment
+        android:id="@+id/meetings_list_navigation"
+        android:name="com.jacktich.meetingnotifications.view.meetingslist.view.MeetingsListFragment"
+        tools:layout = "@layout/fragment_meetings_list"
+        />
+    <fragment
+        android:id="@+id/choose_client_navigation"
+        android:name="com.jacktich.meetingnotifications.view.chooseclient.view.ChooseClientFragment"
+        tools:layout="@layout/fragment_choose_client"
+        />
+    <fragment
+        android:id="@+id/create_meeting_navigation"
+        android:name="com.jacktich.meetingnotifications.view.createmeeting.view.CreateMeetingFragment"
+        tools:layout="@layout/fragment_create_meeting"/>
+</navigation>
