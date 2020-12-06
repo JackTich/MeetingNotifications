@@ -6,8 +6,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.core.content.ContextCompat
-import androidx.core.view.get
 import androidx.core.view.isNotEmpty
 import com.jacktich.meetingnotifications.R
 import com.jacktich.meetingnotifications.data.database.MeetingEntity
@@ -82,6 +82,16 @@ class CreateMeetingFragment : BaseFragment(), CreateMeetingMVPView {
         userFormCreateMeeting.setOnClickListener {
             openChooseUserFragment()
         }
+        val onBackPressedCallback: OnBackPressedCallback =
+            object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    navFragment(R.id.meetings_list_navigation)
+                }
+            }
+        requireActivity().onBackPressedDispatcher.addCallback(
+            viewLifecycleOwner,
+            onBackPressedCallback
+        )
     }
 
     private fun openChooseUserFragment() {

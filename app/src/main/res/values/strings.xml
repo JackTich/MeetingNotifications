@@ -24,4 +24,6 @@
     <string name="refresh">Обновить</string>
     <string name="error_server_503">Сервер пока не готов обработать запрос. Попробуйте обновить список позже</string>
     <string name="error_no_connection">Нет подключения к интернету</string>
+    <string name="press_twice_for_closing_app">Нажмите дважды для закрытия приложения</string>
+
 </resources>

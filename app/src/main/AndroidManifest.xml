@@ -15,10 +15,10 @@
         android:screenOrientation="portrait"
         android:supportsRtl="true"
         android:theme="@style/MeetingNotificationsTheme">
+
         <receiver
             android:name=".utils.receivers.NotificationBroadcastReceiver"
             android:enabled="true"
-            android:exported="false"
             >
         </receiver>
 

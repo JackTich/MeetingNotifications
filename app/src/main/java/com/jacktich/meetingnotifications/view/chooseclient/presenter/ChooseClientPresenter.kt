@@ -7,13 +7,9 @@ import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.disposables.Disposable
 import io.reactivex.rxjava3.schedulers.Schedulers
-import okhttp3.internal.http2.Http2
 import retrofit2.HttpException
-import retrofit2.http.HTTP
-import java.net.SocketTimeoutException
 import java.net.UnknownHostException
 import javax.inject.Inject
-import javax.net.ssl.HttpsURLConnection
 
 class ChooseClientPresenter<V : ChooseClientMVPView, I : ChooseClientMVPInteractor>
 @Inject constructor(

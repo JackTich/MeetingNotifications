@@ -1,6 +1,5 @@
 package com.jacktich.meetingnotifications.view.chooseclient.interactor
 
-import com.jacktich.meetingnotifications.data.api.helpers.IRandomUserApiHelper
 import com.jacktich.meetingnotifications.data.api.helpers.RandomUserApiHelper
 import com.jacktich.meetingnotifications.data.api.responses.GetRandomUserList
 import io.reactivex.rxjava3.core.Observable

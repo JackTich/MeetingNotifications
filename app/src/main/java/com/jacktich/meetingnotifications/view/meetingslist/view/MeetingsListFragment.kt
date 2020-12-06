@@ -9,12 +9,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.core.view.isNotEmpty
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.jacktich.meetingnotifications.R
 import com.jacktich.meetingnotifications.data.database.MeetingEntity
 import com.jacktich.meetingnotifications.utils.navFragment
 import com.jacktich.meetingnotifications.utils.receivers.NotificationBroadcastReceiver
+import com.jacktich.meetingnotifications.utils.supportclasses.DoubleBackPressExit
 import com.jacktich.meetingnotifications.view.base.view.BaseFragment
 import com.jacktich.meetingnotifications.view.meetingslist.adapters.MeetingsListAdapter
 import com.jacktich.meetingnotifications.view.meetingslist.interactor.MeetingsListMVPInteractor
@@ -31,6 +33,8 @@ class MeetingsListFragment : BaseFragment(), MeetingsListMVPView {
     lateinit var presenter: MeetingsListMVPPresenter<MeetingsListMVPView, MeetingsListMVPInteractor>
 
     private val adapterMeetings = MeetingsListAdapter(listOf())
+    private lateinit var doubleBackPressed: DoubleBackPressExit
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -43,6 +47,7 @@ class MeetingsListFragment : BaseFragment(), MeetingsListMVPView {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         presenter.onAttach(this)
+        doubleBackPressed = DoubleBackPressExit(requireContext())
         createMeetingsAdapter()
         initToolbar()
         onClick()
@@ -60,6 +65,16 @@ class MeetingsListFragment : BaseFragment(), MeetingsListMVPView {
         btnToAddMeetingScreen.setOnClickListener {
             openCreateMeetingFragment()
         }
+        val onBackPressedCallback: OnBackPressedCallback =
+            object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    doubleBackPressed.press()
+                }
+            }
+        requireActivity().onBackPressedDispatcher.addCallback(
+            viewLifecycleOwner,
+            onBackPressedCallback
+        )
     }
 
     private fun initToolbar() {
@@ -86,14 +101,18 @@ class MeetingsListFragment : BaseFragment(), MeetingsListMVPView {
     }
 
     override fun createNotifications(listMeetings: List<MeetingEntity>) {
+        val alarmManager = requireActivity().getSystemService(ALARM_SERVICE) as AlarmManager
+
         listMeetings.forEachIndexed { index, meeting ->
             meeting.time?.let {
-                val alarmManager = requireActivity().getSystemService(ALARM_SERVICE) as AlarmManager
-                val hour = 3600000
                 val time = SimpleDateFormat(
                     "dd.MM.yyyy HH:mm",
                     Locale.getDefault()
                 ).parse("${meeting.date} $it")!!.time
+                if (time < Date().time){
+                    return@let
+                }
+                val hour = 3600000
                 val deltaTime = time - Date().time
                 val broadcastIntent =
                     Intent(activity, NotificationBroadcastReceiver::class.java)
@@ -113,7 +132,7 @@ class MeetingsListFragment : BaseFragment(), MeetingsListMVPView {
                     if (deltaTime in 0..hour) {
                         Date().time + 1000
                     } else {
-                        time
+                        time - hour
                     },
                     pendingIntent
                 )

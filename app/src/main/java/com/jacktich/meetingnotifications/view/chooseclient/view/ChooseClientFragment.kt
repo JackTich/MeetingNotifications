@@ -5,9 +5,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.core.content.ContextCompat
 import androidx.core.view.isNotEmpty
-import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.jacktich.meetingnotifications.R
 import com.jacktich.meetingnotifications.data.api.responses.DataUser
@@ -22,7 +22,7 @@ import kotlinx.android.synthetic.main.fragment_choose_client.*
 import javax.inject.Inject
 import javax.net.ssl.HttpsURLConnection
 
-class ChooseClientFragment: BaseFragment(), ChooseClientMVPView {
+class ChooseClientFragment : BaseFragment(), ChooseClientMVPView {
 
     companion object {
         const val KEY_USER_BUNDLE = "keyUserBundle"
@@ -31,12 +31,13 @@ class ChooseClientFragment: BaseFragment(), ChooseClientMVPView {
     @Inject
     lateinit var presenter: ChooseClientMVPPresenter<ChooseClientMVPView, ChooseClientMVPInteractor>
 
-    private val adapterUsers = RandomUserAdapter(listOf(), object: RandomUserAdapter.OnRandomUserClick{
-        override fun onClick(user: DataUser) {
-            addUserInBundle(user)
-            navFragment(R.id.create_meeting_navigation, arguments)
-        }
-    })
+    private val adapterUsers =
+        RandomUserAdapter(listOf(), object : RandomUserAdapter.OnRandomUserClick {
+            override fun onClick(user: DataUser) {
+                addUserInBundle(user)
+                navFragment(R.id.create_meeting_navigation, arguments)
+            }
+        })
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -50,11 +51,24 @@ class ChooseClientFragment: BaseFragment(), ChooseClientMVPView {
         super.onViewCreated(view, savedInstanceState)
         presenter.onAttach(this)
         initToolbar()
+        onClick()
         createRvRandomUser()
         presenter.getRandomUserList()
     }
 
 
+    private fun onClick() {
+        val onBackPressedCallback: OnBackPressedCallback =
+            object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    navFragment(R.id.create_meeting_navigation, arguments)
+                }
+            }
+        requireActivity().onBackPressedDispatcher.addCallback(
+            viewLifecycleOwner,
+            onBackPressedCallback
+        )
+    }
 
     override fun initRandomUserAdapter(usersList: List<DataUser>) {
         adapterUsers.apply {
@@ -64,35 +78,35 @@ class ChooseClientFragment: BaseFragment(), ChooseClientMVPView {
         }
     }
 
-    private fun addUserInBundle(user: DataUser){
+    private fun addUserInBundle(user: DataUser) {
         val userModel = UserModel(
             img = user.picture.medium,
             name = "${user.name.title} ${user.name.first} ${user.name.last}",
             email = user.email
         )
-        if (arguments == null){
+        if (arguments == null) {
             val bundle = Bundle()
             bundle.putParcelable(KEY_USER_BUNDLE, userModel)
             arguments = bundle
-        }else{
+        } else {
             requireArguments().putParcelable(KEY_USER_BUNDLE, userModel)
         }
     }
 
-    private fun clearUserAdapter(){
+    private fun clearUserAdapter() {
         adapterUsers.apply {
             usersList = listOf()
             notifyDataSetChanged()
         }
     }
 
-    private fun initToolbar(){
+    private fun initToolbar() {
         requireActivity().tbMeetings.apply {
-            if(menu.isNotEmpty()){
+            if (menu.isNotEmpty()) {
                 menu.getItem(0).isVisible = true
             }
             setOnMenuItemClickListener {
-                if(it.itemId == R.id.itemRefreshMenuChooseUser){
+                if (it.itemId == R.id.itemRefreshMenuChooseUser) {
                     clearUserAdapter()
                     presenter.getRandomUserList()
                     return@setOnMenuItemClickListener true
@@ -107,7 +121,7 @@ class ChooseClientFragment: BaseFragment(), ChooseClientMVPView {
         }
     }
 
-    private fun createRvRandomUser(){
+    private fun createRvRandomUser() {
         rvRandomUser.apply {
             adapter = adapterUsers
             layoutManager = LinearLayoutManager(requireActivity())
@@ -123,14 +137,15 @@ class ChooseClientFragment: BaseFragment(), ChooseClientMVPView {
     }
 
     override fun showErrorCode(code: Int) {
-        when(code){
+        when (code) {
             HttpsURLConnection.HTTP_UNAVAILABLE -> showServerMessage(getString(R.string.error_server_503))
             else -> showServerMessage(getString(R.string.error_server))
         }
     }
 
     override fun showError() {
-        Toast.makeText(activity, context?.getString(R.string.error_unknown), Toast.LENGTH_SHORT).show()
+        Toast.makeText(activity, context?.getString(R.string.error_unknown), Toast.LENGTH_SHORT)
+            .show()
     }
 
     override fun onDestroy() {
